@@ -1,0 +1,50 @@
+.stopwatch {
+    position: relative;
+    left: 850px;
+    display: flex;
+    margin-top: 10px;
+    width: fit-content;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 2px 14px;
+    border-radius: 10px;
+}
+
+.timerDisplay {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: white;
+    font-size: 40px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+}
+
+
+.btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    background-color: var(--clr);
+    padding: 7px 24px;
+    margin-inline: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.btn:hover {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    background-color: var(--clr);
+    margin-inline: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    
+}

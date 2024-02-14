@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="script.js">
+    <script>
+        function callvalue() {
+            let bat_team    = document.getElementById('bat-team').value;
+            let bowl_team   = document.getElementById('bowl-team').value;
+            let choose      = document.getElementById('bat-bowl').value
+            let over_select = document.getElementById('over-selection');
+            let venue       = document.getElementById('venue');
+            let toss_winner = document.getElementById('toss-winner').value;
+
+
+            let choose_result;
+            if (choose == 'bowl') {
+                choose_result = document.getElementById('bowl').value;
+
+            }
+            else {
+                choose_result = document.getElementById('bat').value;
+
+            }
+
+            over_result = over_select.value;
+            venue_result = venue.value;
+            localStorage.setItem('bat_team', bat_team);
+            localStorage.setItem('bowl_team', bowl_team);
+            localStorage.setItem('bat_bowl', choose_result);
+            localStorage.setItem('over_select', over_result);
+            localStorage.setItem('venue_select', venue_result);
+            localStorage.setItem('toss_win', toss_winner);
+        }
+    </script>
+</head>
+<style>
+    @media screen and (max-width: 500px){
+        body{
+            border: none;
+        }
+    }
+    body {
+        border: 2px solid black;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        margin: 50px 350px;
+        padding: 50px 0px;
+    }
+</style>
+
+<body>
+    <form action="">
+        <h3>Give Your Match Details</h3>
+        <p>Team name who get batting first</p>
+        <input type="text" id="bat-team" class="form-control form-control-lg" placeholder="team-1" required>
+
+        <p>Team name who get bowling first</p>
+        <input type="text" class="form-control form-control-lg" id="bowl-team" placeholder="team-2" required>
+        <br><br><br>
+        <div id="toss-winner">
+            <p>Who win the Toss?</p>
+            <input type="text" id="toss-winner" class="form-control form-control-lg" placeholder="Enter your team Name" required>
+        </div>
+        <div id="bat-bowl">
+            <p>What they choose??</p>
+            <p>Bat<input name="choose" id="bowl" value="bowl" type="radio" required>
+               Bowl<input name="choose" id="bat" value="bat" type="radio" required></p>
+        </div>
+
+
+        <div class="over">
+            Select Overs of the Match!!
+            <select name="" id="over-selection" required>
+                <option value="0">Select</option>
+                <option value="1">1 Overs</option>
+                <option value="2">2 Overs</option>
+                <option value="4">4 Overs</option>
+                <option value="5">5 Overs</option>
+                <option value="10">10 Overs</option>
+                <option value="15">15 Overs</option>
+                <option value="20">20 Overs</option>
+                <option value="50">50 Overs</option>
+            </select>
+        </div><br>
+        <div class="venue">
+            Select venue of your Match
+            <select name="" id="venue" required>
+                <option value="">Select</option>
+                <option value="Narendra Modi Stadium, Ahmedabad">Ahmedabad</option>
+                <option value="Rajiv Gandhi International Stadium. Hyderabad.">Hyderabad</option>
+                <option value="Himachal Pradesh Cricket Association Stadium Dharamsala">Dharamsala</option>
+                <option value="Arun Jaitley Stadium Delhi">Delhi</option>
+                <option value="MA Chidambaram Stadium Chennai">Chennai</option>
+                <option value="Maharashtra Cricket Association Stadium Pune">Pune</option>
+                <option value="M.Chinnaswamy Stadium Bengaluru">Bengaluru</option>
+                <option value="Wankhede Stadium Mumbai">Mumbai</option>
+                <option value="Eden Gardens Kolkata">Kolkata</option>
+            </select>
+        </div>
+
+        <input class="btn btn-primary" type="submit" value="Submit" onclick="callvalue()">
+        <a href="inning_1.html">Start Innings</a>
+
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

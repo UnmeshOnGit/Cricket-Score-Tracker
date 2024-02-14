@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Score Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="stopwatch_style.css">
+    <link rel="stylesheet" href="test.css">
+    <!-- <link rel="stylesheet" href="clock_style.css"> -->
+  
+  <style>
+    .firecracker{
+      position: absolute;
+      left: -900px
+    }
+
+    .firecracker_active{
+      position: absolute;
+      left: 900px;
+    }
+    
+    .score-remaining_hide{
+      position: absolute;
+      left: -500px
+    }
+
+
+   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500&family=Shippori+Antique&family=Teko&display=swap');
+    body{
+      padding: 0;
+      margin: 30px;
+      box-sizing: border-box;
+    }
+    .match-details{
+      width: 99%;
+      margin: 10px;
+      background-color: #FF6F59;
+      border: 2px solid black;
+      border-radius: 10px;
+      text-align: center;
+      padding: 20px 20%;
+
+    }
+    .match-details p{
+      font-size: 20px;
+    }
+    .heading{
+      display: flex;
+      font-family: 'Shippori Antique', sans-serif;
+      justify-content:space-around;
+      align-items: center;
+    }
+    .heading p{
+      font-size: 50px;
+      font-weight: 900;
+    }
+
+
+
+    .target{
+      color: white;
+      background-color: #2d4185;
+      height: 80px;
+      border-radius: 10px;
+      margin: 0px 10px;
+      font-size: 50px;
+      text-align: center;
+      font-style: italic;
+      font-weight: 600;
+    }
+    .score-remaining{
+      color: white;
+      background-color: #5ce1ed;
+      height: 75px;
+      border-radius: 10px;
+      margin: 0px 10px;
+      font-size: 30px;
+      text-align: center;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+
+    .score-card{
+      /* display: block; */
+      display: flex;
+      margin: 10px 0px;
+      border-radius: 10px;
+    }
+    .inning-1, .inning-2{
+      margin: 0 10px;
+      padding: 20px;
+      width: 100%;
+      background-color: #0896bd;
+      border: 1px solid black;
+      border-radius: 10px;
+      height: 150vh;
+    }
+    .Team-Name{
+      font-family: 'Shippori Antique', sans-serif;
+      font-weight: 600;
+      font-size: 50px;
+      text-align: center;
+    }
+    .dashboard{
+      height: 350px;
+      padding-bottom: 20px;
+      color: white;
+      border-radius: 10px;
+      background-color: #F2246F;
+    }
+    .Score{
+      text-align: center;
+      font-size: 90px;
+      font-weight: 700;
+    }
+    .Overs{
+      text-align: center;
+      font-size:50px ;
+      font-weight: 500;
+    }
+    .Run-rate{
+      text-align: center;
+      font-size:22px ;
+      font-weight: 500;
+    }
+
+    .Require-Run-rate{
+      color: black;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .player-statistics{
+      background-color: #FAF3EA;
+      color: black;
+      margin: 10px;
+      padding: 5px;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-evenly;
+    }
+    
+    .future{
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .Button-list{
+      width: 300px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+    .Button-list button{
+      color: white;
+      background-color: #0B014E;
+      font-weight: 600;
+      padding: 5px 15px;
+      margin: 20px 0px 5px 0px ;
+      font-size: 20px;
+      border-radius: 8px;
+    }
+    .data{
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+    
+
+
+    /* utility class css */
+    table{
+      color: white;
+      background-color: #64243f;
+    }
+    table th{
+      padding: 0px 12px;
+      font-size: 30px;
+    }
+    
+    table, td,tr {
+      font-weight: 600;
+      border: 2px solid;
+      font-size: 20px;
+      padding: 0px 30px;
+      text-align: center;
+    }
+    #wicket{
+      background-color: red;
+    }
+    #wide{
+      background-color: whitesmoke;
+      color: black;
+    }
+    #no-ball{
+      background-color: green;
+    }
+    #end{
+      background-color: rgb(255, 183, 0);
+    }
+
+
+
+    /* firecracker css */
+
+
+@keyframes firework {
+  0% { transform: translate(var(--x), var(--initialY)); width: var(--initialSize); opacity: 10; }
+  50% { width: 1.0vmin; opacity: 100; }
+  100% { width: var(--finalSize); opacity: 0; }
+}
+
+/* @keyframes fireworkPseudo {
+  0% { transform: translate(-50%, -50%); width: var(--initialSize); opacity: 1; }
+  50% { width: 0.5vmin; opacity: 1; }
+  100% { width: var(--finalSize); opacity: 0; }
+}
+ */
+.firework,
+.firework::before,
+.firework::after
+{
+  --initialSize: 0.5vmin;
+  --finalSize: 45vmin;
+  --particleSize: 0.2vmin;
+  --color1: yellow;
+  --color2: khaki;
+  --color3: white;
+  --color4: lime;
+  --color5: gold;
+  --color6: mediumseagreen;
+  --y: -30vmin;
+  --x: -50%;
+  --initialY: 60vmin;
+  content: "";
+  animation: firework 2s infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, var(--y));
+  width: var(--initialSize);
+  aspect-ratio: 1;
+  background: 
+    /*
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 0% 0%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 100% 0%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 100% 100%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 0% 100%,
+    */
+    
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 50% 0%,
+    radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 50%,
+    radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 50% 100%,
+    radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 0% 50%,
+    
+    /* bottom right */
+    radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 80% 90%,
+    radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 95% 90%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 90% 70%,
+    radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 100% 60%,
+    radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 55% 80%,
+    radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 70% 77%,
+    
+    /* bottom left */
+    radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 22% 90%,
+    radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 45% 90%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 70%,
+    radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 10% 60%,
+    radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 31% 80%,
+    radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 28% 77%,
+    radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 13% 72%,
+    
+    /* top left */
+    radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 80% 10%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 95% 14%,
+    radial-gradient(circle, var(--color2) var(--particleSize), #0000 0) 90% 23%,
+    radial-gradient(circle, var(--color3) var(--particleSize), #0000 0) 100% 43%,
+    radial-gradient(circle, var(--color4) var(--particleSize), #0000 0) 85% 27%,
+    radial-gradient(circle, var(--color5) var(--particleSize), #0000 0) 77% 37%,
+    radial-gradient(circle, var(--color6) var(--particleSize), #0000 0) 60% 7%,
+    
+    /* top right */
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 22% 14%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 45% 20%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 33% 34%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 10% 29%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 31% 37%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 28% 7%,
+    radial-gradient(circle, var(--color1) var(--particleSize), #0000 0) 13% 42%
+    ;
+  background-size: var(--initialSize) var(--initialSize);
+  background-repeat: no-repeat;
+}
+
+.firework::before {
+  --x: -50%;
+  --y: -50%;
+  --initialY: -50%;
+/*   transform: translate(-20vmin, -2vmin) rotate(40deg) scale(1.3) rotateY(40deg); */
+  transform: translate(-50%, -50%) rotate(40deg) scale(1.3) rotateY(40deg);
+/*   animation: fireworkPseudo 2s infinite; */
+}
+
+.firework::after {
+  --x: -50%;
+  --y: -50%;
+  --initialY: -50%;
+/*   transform: translate(44vmin, -50%) rotate(170deg) scale(1.15) rotateY(-30deg); */
+  transform: translate(-50%, -50%) rotate(170deg) scale(1.15) rotateY(-30deg);
+/*   animation: fireworkPseudo 2s infinite; */
+}
+
+.firework:nth-child(2) {
+  --x: 30vmin;
+}
+
+.firework:nth-child(2),
+.firework:nth-child(2)::before,
+.firework:nth-child(2)::after {
+  --color1: pink;
+  --color2: violet;
+  --color3: fuchsia;
+  --color4: orchid;
+  --color5: plum;
+  --color6: lavender;  
+  --finalSize: 40vmin;
+  left: 30%;
+  top: 60%;
+  animation-delay: -0.25s;
+}
+
+.firework:nth-child(3) {
+  --x: -30vmin;
+  --y: -50vmin;
+}
+
+.firework:nth-child(3),
+.firework:nth-child(3)::before,
+.firework:nth-child(3)::after {
+  --color1: cyan;
+  --color2: lightcyan;
+  --color3: lightblue;
+  --color4: PaleTurquoise;
+  --color5: SkyBlue;
+  --color6: lavender;
+  --finalSize: 35vmin;
+  left: 70%;
+  top: 60%;
+  animation-delay: -0.45s;
+}
+
+.firework:nth-child(4) {
+  --x: 50vmin;
+  --y: -50vmin;
+}
+.firework:nth-child(4),
+.firework:nth-child(4)::before,
+.firework:nth-child(4)::after {
+  --color1: cyan;
+  --color2: lightcyan;
+  --color3: lightblue;
+  --color4: PaleTurquoise;
+  --color5: SkyBlue;
+  --color6: lavender;
+  --finalSize: 35vmin;
+  left: 80%;
+  top: 60%;
+  animation-delay: -0.69s;
+}
+
+.firework:nth-child(5) {
+  --x: 10vmin;
+  --y: -50vmin;
+}
+.firework:nth-child(5),
+.firework:nth-child(5)::before,
+.firework:nth-child(5)::after {
+  --color1: rgb(255, 0, 0);
+  --color2: rgb(255, 157, 0);
+  --color3: rgb(255, 200, 0);
+  --color4: rgb(255, 238, 0);
+  --color5: rgb(170, 255, 0);
+  --color6: rgb(17, 255, 0);
+  --finalSize: 35vmin;
+  left: 100%;
+  top: 60%;
+  animation-delay: -0.88s;
+}
+
+
+
+/* media queries */
+@media screen and (max-width: 400px){
+    .score-card{
+        display: block;
+        margin: 5px 0px;
+    }
+    
+    .match-details{
+        height: 150px;
+        padding: 10px 4%;
+        width: 430px;
+        margin: 20px;
+        border-radius: 5px;
+    }
+    
+    .match-details p {
+        font-size: 10px;
+    }
+    .heading p {
+        font-size: 30px;
+    }
+    .NewInning{
+        width: 80px;
+        font-size: 8px;
+    }
+    .target{
+        margin: 0px 5px;
+        height: 30px;
+        width: 430px;
+        font-size: 20px;
+        border-radius: 5px;
+        position: relative;
+        top: 720px;
+    }
+   .score-remaining{
+        margin: 0px 5px;
+        height: 50px;
+        width: 430px;
+        font-size: 20px;
+        border-radius: 5px;
+        position: relative;
+        top: 720px;
+   }
+    .inning-1, .inning-2{
+        position: relative;
+        top: -80px;
+        margin: 7px;
+        width: 430px;
+        padding: 5px;
+        border-radius: 5px;
+        height: 100vh;
+    }
+    .inning-2{
+        margin-top: 100px;
+    }
+    .Team-Name{
+        font-weight: 600;
+        font-size: 30px;
+    }
+    .dashboard{
+        height: 150px;
+        padding-bottom: 20px;
+        color: white;
+        border-radius: 5px;
+        background-color: #F2246F;
+    }
+    .Score{
+        font-size: 50px;
+        font-weight: 600;
+        position: relative;
+        top: -10px;
+      }
+      .Overs{
+        text-align: center;
+        font-size:25px ;
+        position: relative;
+        top: -20px;
+      }
+      .Run-rate{
+        text-align: center;
+        font-size:20px ;
+        font-weight: 400;
+        position: relative;
+        top: -30px;
+      }
+  
+      .Require-Run-rate{
+        color: black;
+        text-align: center;
+        font-size: 15px;
+      }
+  
+      .player-statistics{
+        position: relative;
+        top: -35px;
+        background-color: #FAF3EA;
+        color: black;
+        margin: 5px;
+        padding: 2px;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: 400;
+        display: flex;
+        justify-content: space-evenly;
+      }
+      .Button-list button{
+        color: white;
+        background-color: #0B014E;
+        font-weight: 400;
+        padding: 2px 5px;
+        margin: 10px 0px 0px 0px ;
+        font-size: 20px;
+        border-radius: 8px;
+      }
+      .data{
+        margin-top: 10px;
+      }
+      
+      table th{
+        padding: 0px 5px;
+        font-size: 20px;
+        font-weight: 500;
+      }
+      
+      table, td,tr {
+        font-weight: 400;
+        border: 2px solid;
+        font-size: 18px;
+        padding: 0px 15px;
+        text-align: center;
+      }
+}
+
+.over-records{
+  display: grid;
+  grid-template-columns: max-content;
+  width: 550px;
+  overflow-y: scroll;
+}
+
+  </style>
+</head>
+
+<body onload="match(),startNewInning()" >
+  <div class="match-details">
+    <div class="heading">
+      <p id="team-1"></p>
+      <h3>vs</h3>
+      <p id="team-2"></p>
+    </div>
+    <p><span id="team"></span> won the toss and elected to <span id="choose"></span></p>
+    <p>Live From <span id="venue"></span></p>
+    <button class="NewInning" onclick="startNewInning()">Start New Inning</button>
+    <section class="info" id="info" >
+    </div>
+    <div class="target info" id="target" ></div>
+    <div class="score-remaining info" >
+      <div id="Score-remaining" ></div>
+      <div  class="Require-Run-rate" id="require-run-rate"> </div>
+    </div>
+  </section>
+  
+  <div class="stopwatch">
+      <div id="TimerDisplay1" class="timerDisplay">00 : 00 : 00</div>
+      <br>
+      <div class="buttons">
+        <button id="stopBtn" class="btn" style="--clr:red;">Stop</button>
+        
+        <button id="startBtn" class="btn" style="--clr:green">Start</button>
+        
+        <button id="resetBtn" class="btn" style="--clr:blue">Reset</button>
+      </div>
+    </div>
+  <div class="score-card">
+    <div class="inning-1">
+      <h2 class="Team-Name" id="team-1-inning" ></h2>
+      <div class="scoreboard" id="current-inning">
+  
+        <div class="dashboard">
+          <div class="Score" id="score">Score: 0/0</div>
+          <div class="Overs" id="overs">Overs: 0.0</div>
+          <div class="future" >
+            <div  class="Run-rate" id="run-rate"></div>
+            <div class="Run-rate" id="projected-runs"></div>
+          </div>
+          <div class="player-statistics">
+            <div  id="run"> 0 (0) </div>
+            <div  id="strike-rate" >Strike Rate: 000</div>
+            <div  id="half" >Half Century: 0</div>
+            <div  id="century" >Century: 0</div>
+          </div>
+        </div>
+
+
+        <div class="Button-list" >
+          <button  onclick="updateScore(0),updateOverStatistics(0)">0 Run</button>
+          <button  onclick="updateScore(1),updateOverStatistics(1)">1 Run</button>
+          <button  onclick="updateScore(2),updateOverStatistics(2)">2 Runs</button>
+          <button  onclick="updateScore(3),updateOverStatistics(3)">3 Runs</button>
+          <button  onclick="updateScore(4),updateOverStatistics(4)">4 Runs</button>
+          <button  onclick="updateScore(5),updateOverStatistics(5)">5 Runs</button>
+          <button  onclick="updateScore(6),updateOverStatistics(6)">6 Runs</button>
+          <button  id="wicket" onclick="updateWicket(),updateOverStatistics('W')">Wicket</button>
+          <button  id="wide" onclick="updateWide(),updateOverStatistics('Wide')">Wide</button>
+          <button  id="no-ball" onclick="updateNoBall(),updateOverStatistics('N')">No Ball</button>
+          <button  id="end" onclick="endOfInning()">End of Inning</button>
+        </div>
+
+
+      </div>
+      <div class="data">
+        <div class="statistics">
+          <table border="2" >
+            <th>Player Statistics</th>
+            <tr><td>Fours</td><td id="fours" >0</td></tr>
+            <tr><td>Sixers</td><td id="sixers" >0</td></tr>
+            <tr><td>Extras</td><td id="Extras" >0</td></tr>
+          </table>
+          <!-- <h2>Player Statistics</h2>
+          <p>Fours: <span id="fours">0</span></p>
+          <p>Sixers: <span id="sixers">0</span></p> -->
+        </div>
+      
+        <div class="fall-of-wickets">
+          <table>
+            <th>Fall of Wickets</th>
+            <tr><td id="wicket-list" ></td></tr>
+          </table>
+          <!-- <h2>Fall of Wicket</h2>
+          <ul id="wicket-list"></ul> -->
+        </div> 
+      </div>
+      <!-- <div class="over-records"> 
+        <table>
+          <th>Over Records</th>
+          <tr>
+            <th id="over-statistics"  ></th>
+          </tr>
+        </table>
+      </div>     -->
+    </div>
+
+
+
+
+    <!-- inning second start here -->
+
+
+    <div class="inning-2">
+      <h2 class="Team-Name" id="team-2-inning" ></h2>
+      <div class="scoreboard" id="current-inning1">
+        <div class="dashboard">
+          <div class="Score" id="score1">Score: 0/0</div>
+          <div class="Overs" id="overs1">Overs: 0.0</div>
+          <div class="future" >
+            <div  class="Run-rate" id="run-rate1"></div>
+            <div class="Run-rate" id="projected-runs1"> </div>
+          </div>
+          <!-- <div  class="Require-Run-rate" id="require-run-rate">RRR: </div> -->
+
+          <div class="player-statistics">
+            <div id="run1"> 0 (0) </div>
+            <div id="strike-rate1" >Strike Rate: 000</div>
+            <div id="half1" >Half Century: 0</div>
+            <div id="century1" >Century: 0</div>
+          </div>
+
+        </div>
+        <div class="Button-list" >
+          <button onclick="updateScore1(0)">0 Run</button>
+          <button onclick="updateScore1(1)">1 Run</button>
+          <button onclick="updateScore1(2)">2 Runs</button>
+          <button onclick="updateScore1(3)">3 Runs</button>
+          <button onclick="updateScore1(4)">4 Runs</button>
+          <button onclick="updateScore1(5)">5 Runs</button>
+          <button onclick="updateScore1(6)">6 Runs</button>
+          <button id="wicket" onclick="updateWicket1()">Wicket</button>
+          <button id="wide" onclick="updateWide1()">Wide</button>
+          <button id="no-ball" onclick="updateNoBall1()">No Ball</button>
+          <button id="end" class="cracker-btn" onclick="endOfInning1()">End of Inning</button>
+        </div>
+      </div>
+      
+      <div class="data">
+        <div class="statistics">
+          <table border="2" >
+            <th>Player Statistics</th>
+            <tr><td>Fours</td><td id="fours1" >0</td></tr>
+            <tr><td>Sixers</td><td id="sixers1" >0</td></tr>
+            <tr><td>Extras</td><td id="Extras1" >0</td></tr>
+          </table>
+          <!-- <h2>Player Statistics</h2>
+          <p>Fours: <span id="fours">0</span></p>
+          <p>Sixers: <span id="sixers">0</span></p> -->
+        </div>
+      
+        <div class="fall-of-wickets">
+          <table>
+            <th>Fall of Wickets</th>
+            <tr><td id="wicket-list1" ></td></tr>
+          </table>
+          <!-- <h2>Fall of Wicket</h2>
+          <ul id="wicket-list"></ul> -->
+        </div>     
+      </div>
+    </div>
+
+
+
+    <div class="firecracker">
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+    </div>
+  </div>
+  <script src="inningJS.js" ></script>
+  <script 3rc="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@oddbird/css-toggles@1.0.2/dist/css-toggles.min.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="stopwatch_script.js" ></script>
+</body>
+</html>
